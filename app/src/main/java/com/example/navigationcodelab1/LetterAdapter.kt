@@ -1,5 +1,6 @@
 package com.example.navigationcodelab1
 
+import android.content.Intent
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ class LetterAdapter : RecyclerView.Adapter<LetterAdapter.LetterViewHolder>() {
 
         class LetterViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
             val button = view.findViewById<Button>(R.id.button_item)
+
         }
 
         override fun getItemCount(): Int {
@@ -34,6 +36,15 @@ class LetterAdapter : RecyclerView.Adapter<LetterAdapter.LetterViewHolder>() {
         override fun onBindViewHolder(holder: LetterViewHolder, position: Int) {
             val item = list.get(position)
             holder.button.text = item.toString()
+//
+            holder.button.setOnClickListener {
+                val context = holder.view.context
+                val intent = Intent(context, DetailActivity::class.java)
+//                intent.putExtra("letter", holder.button.text.toString())
+                intent.putExtra(DetailActivity.LETTER, holder.button.text.toString())
+                context.startActivity(intent)
+//
+            }
         }
 
 

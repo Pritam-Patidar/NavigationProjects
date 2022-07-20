@@ -1,6 +1,8 @@
 package com.example.navigationcodelab1
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -38,12 +40,9 @@ import androidx.recyclerview.widget.RecyclerView
             val layout = LayoutInflater
                 .from(parent.context)
                 .inflate(R.layout.item_view, parent, false)
-
             layout.accessibilityDelegate = Accessibility
-
             return WordViewHolder(layout)
         }
-
 
         override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
 
@@ -52,7 +51,13 @@ import androidx.recyclerview.widget.RecyclerView
 
             holder.button.text = item
 
+            holder.button.setOnClickListener {
+                val queryUrl: Uri = Uri.parse("${DetailActivity.SEARCH_PREFIX}${item}")
+                val intent = Intent(Intent.ACTION_VIEW, queryUrl)
+                context.startActivity(intent)
+            }
         }
+
 
         companion object Accessibility : View.AccessibilityDelegate() {
             @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -61,7 +66,6 @@ import androidx.recyclerview.widget.RecyclerView
                 info: AccessibilityNodeInfo?
             ) {
                 super.onInitializeAccessibilityNodeInfo(host, info)
-
                 val customString = host?.context?.getString(R.string.look_up_word)
                 val customClick =
                     AccessibilityNodeInfo.AccessibilityAction(
